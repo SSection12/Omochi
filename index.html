@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Omochi!</title>
+  <link rel="icon" href="https://files.catbox.moe/9ae2fr.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+   <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* --- Fonts --- */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Beth+Ellen&family=Chelsea+Market&display=swap');
+    
+    /* --- Reset & Base --- */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    body {
+        background: black;
+        font-weight: 400;
+        font-style: normal;
+        font-family: "Chelsea Market", system-ui;
+        font-size: 34px;
+    }
+    
+    /* --- Brand Colors (WHITE THEME - Orange Accent) --- */
+    .brand-accent { color: #ff9605; }
+    .bg-brand-accent { background-color: #ff9605; }
+    .border-brand-accent { border-color: #ff9605; }
+    
+    /* --- Opening Animation --- */
+    .opening-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #ff9605, #e68600);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        animation: fadeOut 0.8s ease-in-out 3s forwards;
+    }
+    
+    .logo-animation {
+        opacity: 0;
+        transform: translateY(50px);
+        animation: slideInUp 1s ease-out 0.5s forwards;
+    }
+    
+    .text-animation {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: slideInUp 1s ease-out 1.5s forwards;
+    }
+    
+    @keyframes slideInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeOut {
+        to {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+    
+    /* --- Auto Scroll --- */
+    .auto-scroll {
+        animation: autoScrollToTop 0.1s ease-in-out 4s forwards;
+    }
+    
+    @keyframes autoScrollToTop {
+        to {
+            scroll-behavior: smooth;
+        }
+    }
+    
+    /* --- Hover Effects --- */
+    .hover-lift {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(255, 150, 5, 0.2);
+    }
+    
+    .hover-button {
+        transition: all 0.3s ease;
+    }
+    
+    .hover-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 150, 5, 0.3);
+    }
+    
+    .review-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        background-color: #f9fafb;
+    }
+    
+    .review-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(255, 150, 5, 0.15);
+        background-color: #ffffff;
+    }
+    
+    /* --- Micro Animations --- */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+    }
+    
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .scale-in {
+        opacity: 0;
+        transform: scale(0.9);
+        transition: all 0.6s ease;
+    }
+    
+    .scale-in.visible {
+        opacity: 1;
+        transform: scale(1);
+    }
+    
+    /* --- Pricing --- */
+    .show-promo .original-price {
+        text-decoration: line-through;
+        font-size: 1rem;
+        color: #ef4444;
+        font-weight: 500;
+    }
+    
+    .show-promo .promo-price {
+        display: block;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ff9605;
+    }
+    
+    .promo-price {
+        display: none;
+    }
+    
+    .show-promo .price-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .regular-price {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ff9605;
+    }
+    
+    /* --- Star Rating --- */
+    .star-rating {
+        color: #fbbf24;
+    }
+    
+    /* --- Navigation --- */
+    .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #ff9605;
+        transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+        width: 100%;
+    }
+    
+    /* --- Layout Components --- */
+    .wrapper,
+    .content {
+        position: relative;
+        width: 100%;
+        z-index: 1;
+    }
+    
+    .content {
+        overflow-x: hidden;
+    }
+    
+    .content .section {
+        width: 100%;
+        height: 100vh;
+    }
+
+    .white-gradient { 
+        background: linear-gradient(to bottom, black, white);
+        min-height: 100vh;
+        position: relative;
+        z-index: 3;
+    }
+    
+    .gradient-purple, .gradient-blue {
+        height: 50vh;
+    }
+    
+    .content .section.hero {
+        display: block;
+        height: 100vh;
+        background-image: url(https://images.unsplash.com/photo-1512747646639-ed824d861e0d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        transition: opacity 0.5s ease;
+    }
+    
+    .image-container {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        perspective: 500px;
+        overflow: hidden;
+    }
+    
+    .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* --- Special Sections --- */
+    .intro {
+        position: absolute;
+        left: 0%;
+        top: 0%;
+        right: auto;
+        bottom: auto;
+        z-index: 2;
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #ff0000;
+    }
+    
+    .intro h1 {
+        font-size: 40px;
+        font-family: "Beth Ellen", cursive;
+    }
+    
+    .intro p {
+        font-size: 60px;
+        font-family: "Chelsea Market", system-ui;
+        font-weight: bolder;
+    }
+    
+    .test {
+        position: relative;
+        color: white;
+        top: -30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 45px;
+        color: #ff9605c4;
+    }
+    
+    /* --- NEW: Info Cards --- */
+    .info-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        height: 400px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .info-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .info-card:hover img {
+        transform: scale(1.1);
+    }
+    
+    .info-card-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        padding: 30px;
+        color: white;
+    }
+    
+    /* --- NEW: Pre-order Section --- */
+    .pre-order-section {
+        background: white;
+        padding: 80px 20px;
+        position: relative;
+        z-index: 3;
+    }
+    
+    .mochi-variant {
+        background: #f9fafb;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .mochi-variant:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(255, 150, 5, 0.1);
+    }
+    
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .quantity-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background: #ff9605;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .quantity-btn:hover {
+        transform: scale(1.1);
+    }
+    
+    .quantity-display {
+        font-size: 24px;
+        font-weight: bold;
+        min-width: 40px;
+        text-align: center;
+    }
+    
+    .total-price {
+        font-size: 36px;
+        color: #ff9605;
+        font-weight: bold;
+        text-align: center;
+        margin: 30px 0;
+    }
+    
+    /* Hide all scrollbars */
+    *::-webkit-scrollbar {
+      display: none;
+    }
+
+    * {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  </style>
+<base target="_blank">
+</head>
+<body>
+  <div class="wrapper">
+    <div class="intro">
+      <h1>Legenda seorang</h1>
+      <p>Petualang pencari harta karun</p>
+    </div>
+    <div class="content">
+      <section class="section hero"></section>
+      <section class="section gradient-purple"></section>
+      <section class="section gradient-blue">
+        <div class="test">
+          <p>Konon, di kota kecil yang nggak ada di Google Maps,</p>
+          <p>tersembunyi sebuah harta karun manis yang cuma bisa ditemukan oleh mereka yang berani menjelajah.</p>
+          <br>
+          <p>Suatu hari, seorang pemuda bernama Malik memutuskan untuk pergi berpetualang.</p>
+          <p>Ia ingin menemukan sesuatu yang bisa membuat harinya lebih berwarna.</p>
+          <br>
+          <p>Dengan membawa ransel dan semangat, Malik menyusuri jalanan, dan area yang belum pernah ia datangi sebelumnya.</p>
+          <br>
+          <br>
+          <br>
+          <p>Hingga akhirnya, di ujung sebuah jalan kecil</p>
+          <h1>Dia menemukan sebuah harta karun!!!</h1>
+          <h3>Harta karunnya yaitu...</h3>
+          <br>
+          <br>
+        </div>
+      </section>
+    </div>
+    <div class="image-container">
+      <img src="https://uploads-ssl.webflow.com/5cff83ac2044e22cb8cf2f11/5d13364599bb70e3560cc4e5_background-min%203.png" alt="image">
+    </div>
+    <section class="white-gradient"></section>
+    <section style="background: white; padding: 20px; position: relative; z-index: 3;">
+      <br>
+      <br>
+      <br>
+      <center>
+        <!-- <img src="https://files.catbox.moe/7n2hvv.png" alt=""> -->
+        <img src="https://files.catbox.moe/9ae2fr.png" alt="">
+        <br>
+        <br>
+        <br>
+        <!-- <h1 style="font-family: 'Chelsea Market', cursive; font-size: 48px; color: #000000; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Lorem Ipsum</h1>
+        <p style="font-family: 'Chelsea Market', cursive; font-size: 20px; color: #000000; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Lorem Ipsum</p> -->
+      </center>
+    </section>
+    
+    <!-- NEW: Info Cards Section -->
+    <section style="background: white; padding: 60px 20px; position: relative; z-index: 3;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-family: 'Chelsea Market', cursive; font-size: 48px; color: #000; text-align: center; margin-bottom: 50px;">Kenapa Mochi Kami Istimewa?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 30px;">
+                
+                <!-- Card 1 -->
+                <div class="info-card hover-lift">
+                    <img src="https://files.catbox.moe/mo7xyj.jpg" alt="Premium Ingredients">
+                    <div class="info-card-overlay">
+                        <h3 style="font-family: 'Chelsea Market', cursive; font-size: 32px; margin-bottom: 10px;">Bahan Premium</h3>
+                        <p style="font-size: 18px; line-height: 1.5;">Mochi kami dibuat dari tepung ketan berkualitas  tinggi, isian yang premium dan tanpa bahan pengawet tambahan</p>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="info-card hover-lift">
+                    <img src="https://files.catbox.moe/hf53m2.jpg" alt="Handcrafted">
+                    <div class="info-card-overlay">
+                        <h3 style="font-family: 'Chelsea Market', cursive; font-size: 32px; margin-bottom: 10px;">Buatan Tangan</h3>
+                        <p style="font-size: 18px; line-height: 1.5;">Setiap mochi dibuat dengan cinta dan penuh ketelitian sehingga menghasilkan mochi yang lembut dan kenyal</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: Pre-order Section -->
+<section class="pre-order-section">
+  <div style="max-width: 1000px; margin: 0 auto;">
+    <h2 style="font-family: 'Chelsea Market', cursive; font-size: 48px; color: #000; text-align: center; margin-bottom: 20px;">
+      Pesan Mochi Anda!
+    </h2>
+    <p style="font-size: 20px; text-align: center; color: #666; margin-bottom: 40px;">
+      Pilih jumlah mochi yang kamu inginkan
+    </p>
+
+    <!-- Mochi Variants -->
+    <div id="mochi-variants">
+
+      <!-- Coklat -->
+      <div class="mochi-variant fade-in">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <img src="https://files.catbox.moe/0r5tf8.png" alt="" style="width: 80px; height: 80px; border-radius: 15px; object-fit: cover;">
+          <div style="flex: 1;">
+            <h3 style="font-family: 'Chelsea Market', cursive; font-size: 24px;">Coklat</h3>
+            <p style="font-size: 14px; color: #666;">Mochi lembut dengan isian coklat creamy</p>
+            <p style="font-size: 18px; color: #ff9605; font-weight: bold;">Rp 10.000</p>
+          </div>
+          <div class="quantity-control">
+            <button class="quantity-btn" data-variant="coklat" data-action="decrease">-</button>
+            <span class="quantity-display" data-variant="coklat">0</span>
+            <button class="quantity-btn" data-variant="coklat" data-action="increase">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manggo & Cream -->
+      <div class="mochi-variant fade-in">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <img src="https://files.catbox.moe/0r5tf8.png" alt="" style="width: 80px; height: 80px; border-radius: 15px; object-fit: cover;">
+          <div style="flex: 1;">
+            <h3 style="font-family: 'Chelsea Market', cursive; font-size: 24px;">Manggo & Cream</h3>
+            <p style="font-size: 14px; color: #666;">Rasa manis segar dari mangga dan krim lembut</p>
+            <p style="font-size: 18px; color: #ff9605; font-weight: bold;">Rp 10.000</p>
+          </div>
+          <div class="quantity-control">
+            <button class="quantity-btn" data-variant="manggo" data-action="decrease">-</button>
+            <span class="quantity-display" data-variant="manggo">0</span>
+            <button class="quantity-btn" data-variant="manggo" data-action="increase">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cookies & Cream -->
+      <div class="mochi-variant fade-in">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <img src="https://files.catbox.moe/0r5tf8.png" alt="" style="width: 80px; height: 80px; border-radius: 15px; object-fit: cover;">
+          <div style="flex: 1;">
+            <h3 style="font-family: 'Chelsea Market', cursive; font-size: 24px;">Cookies & Cream</h3>
+            <p style="font-size: 14px; color: #666;">Mochi lembut dengan potongan cookies renyah</p>
+            <p style="font-size: 18px; color: #ff9605; font-weight: bold;">Rp 10.000</p>
+          </div>
+          <div class="quantity-control">
+            <button class="quantity-btn" data-variant="cookies" data-action="decrease">-</button>
+            <span class="quantity-display" data-variant="cookies">0</span>
+            <button class="quantity-btn" data-variant="cookies" data-action="increase">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strawberry Cream -->
+      <div class="mochi-variant fade-in">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <img src="https://files.catbox.moe/0r5tf8.png" alt="" style="width: 80px; height: 80px; border-radius: 15px; object-fit: cover;">
+          <div style="flex: 1;">
+            <h3 style="font-family: 'Chelsea Market', cursive; font-size: 24px;">Strawberry Cream</h3>
+            <p style="font-size: 14px; color: #666;">Perpaduan stroberi segar dan krim manis</p>
+            <p style="font-size: 18px; color: #ff9605; font-weight: bold;">Rp 10.000</p>
+          </div>
+          <div class="quantity-control">
+            <button class="quantity-btn" data-variant="strawberry" data-action="decrease">-</button>
+            <span class="quantity-display" data-variant="strawberry">0</span>
+            <button class="quantity-btn" data-variant="strawberry" data-action="increase">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Matcha -->
+      <div class="mochi-variant fade-in">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <img src="https://files.catbox.moe/0r5tf8.png" alt="" style="width: 80px; height: 80px; border-radius: 15px; object-fit: cover;">
+          <div style="flex: 1;">
+            <h3 style="font-family: 'Chelsea Market', cursive; font-size: 24px;">Matcha</h3>
+            <p style="font-size: 14px; color: #666;">Mochi dengan cita rasa matcha premium dari Jepang</p>
+            <p style="font-size: 18px; color: #ff9605; font-weight: bold;">Rp 10.000</p>
+          </div>
+          <div class="quantity-control">
+            <button class="quantity-btn" data-variant="matcha" data-action="decrease">-</button>
+            <span class="quantity-display" data-variant="matcha">0</span>
+            <button class="quantity-btn" data-variant="matcha" data-action="increase">+</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Total Price -->
+    <div class="total-price">
+      Total: Rp <span id="total-price">0</span>
+    </div>
+
+    <!-- Pre-order Button -->
+    <center>
+      <button id="preorder-btn" class="hover-button" style="background: #ff9605; color: white; border: none; padding: 15px 40px; font-size: 24px; font-family: 'Chelsea Market', cursive; border-radius: 50px; cursor: pointer;">
+        Pre-order Sekarang!
+      </button>
+    </center>
+  </div>
+</section>
+
+<script>
+// Ensure the quantity display starts with a valid number
+const quantityDisplays = document.querySelectorAll(".quantity-display");
+quantityDisplays.forEach(display => {
+  if (isNaN(parseInt(display.innerText))) {
+    display.innerText = "0";
+  }
+});
+
+// Quantity button logic
+document.querySelectorAll(".quantity-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    const variant = button.getAttribute("data-variant");
+    const action = button.getAttribute("data-action");
+    const display = document.querySelector(`.quantity-display[data-variant="${variant}"]`);
+    let value = parseInt(display.innerText);
+
+    if (action === "increase") value++;
+    else if (action === "decrease" && value > 0) value--;
+
+    display.innerText = value;
+
+    updateTotal();
+  });
+});
+
+// Update total price logic to handle NaN gracefully
+function updateTotal() {
+  const pricePerMochi = 10000;
+  let total = 0;
+
+  document.querySelectorAll(".quantity-display").forEach(q => {
+    const quantity = parseInt(q.innerText);
+    if (!isNaN(quantity)) {
+      total += quantity * pricePerMochi;
+    }
+  });
+
+  document.getElementById("total-price").innerText = total.toLocaleString("id-ID");
+}
+
+// WhatsApp order
+document.getElementById("preorder-btn").addEventListener("click", function () {
+  const variants = [
+  { name: "Coklat", key: "coklat" },
+  { name: "Manggo & Cream", key: "manggo" },
+  { name: "Cookies & Cream", key: "cookies" },
+  { name: "Strawberry Cream", key: "strawberry" },
+  { name: "Matcha", key: "matcha" }
+];
+
+
+  const pricePerMochi = 10000;
+  let total = 0;
+  let messageParts = [];
+
+  variants.forEach(v => {
+    const qty = parseInt(document.querySelector(`.quantity-display[data-variant="${v.key}"]`).innerText);
+    if (qty > 0) {
+      messageParts.push(`• ${qty} ${v.name}`);
+      total += qty * pricePerMochi;
+    }
+  });
+
+  if (messageParts.length === 0) {
+    alert("Kamu belum memilih mochi apapun!");
+    return;
+  }
+
+  const finalMessage = 
+`Halo! Aku ingin memesan:
+${messageParts.join("\n")}
+Total: Rp ${total.toLocaleString("id-ID")}
+Atas nama: (tulis nama kamu)`;
+
+  const phoneNumber = "6281387460445"; // Ganti ke nomor tujuan
+  const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(finalMessage)}`;
+  window.open(whatsappLink, "_blank");
+});
+</script>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script>
+    console.clear();
+    
+    gsap.registerPlugin(ScrollTrigger);
+    
+    window.addEventListener("load", () => {
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: ".wrapper",
+            start: "top top",
+            end: "+=150%",
+            pin: true,
+            scrub: true,
+            markers: false
+          }
+        })
+        .to("img", {
+          scale: 2,
+          z: 250,
+          transformOrigin: "center center",
+          ease: "power1.inOut"
+        })
+        .to(
+          ".section.hero",
+          {
+            scale: 1.4,
+            transformOrigin: "center center",
+            ease: "power1.inOut"
+          },
+          "<"
+        );
+    });
+    
+    $(document).ready(function() {
+      $.fn.darkenScroll = function() {
+        var elem = $(this);
+        self = this;
+        
+        $(window).on('scroll', function() {
+          scroll = $(document).scrollTop();
+          offsetTop = elem.offset().top + elem.outerHeight();
+          opacity = 1 / offsetTop * scroll;
+          if (opacity > 0 && opacity < 1) {
+            elem.css({'box-shadow': '10000px 0 0 0 rgba(0,0,0,' + opacity + ') inset'});
+          }
+        })
+      }
+      $('.section.hero').darkenScroll();
+    });
+
+    // --- NEW: Quantity Control & Pre-order Functionality ---
+    const quantities = {
+        coklat: 0,
+        manggo: 0,
+        cookies: 0,
+        strawberry: 0,
+        matcha: 0
+    };
+
+    const pricePerItem = 10000;
+
+    function updateTotal() {
+        const total = (quantities.coklat + quantities.manggo + quantities.cookies + quantities.strawberry + quantities.matcha) * pricePerItem;
+        document.getElementById('total-price').textContent = total.toLocaleString('id-ID');
+    }
+
+    function updateQuantity(variant, action) {
+        if (action === 'increase') {
+            quantities[variant]++;
+        } else if (action === 'decrease' && quantities[variant] > 0) {
+            quantities[variant]--;
+        }
+        
+        // Update display
+        document.querySelector(`[data-variant="${variant}"].quantity-display`).textContent = quantities[variant];
+        
+        // Update total
+        updateTotal();
+    }
+
+    // Add event listeners to all quantity buttons
+    document.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const variant = this.dataset.variant;
+            const action = this.dataset.action;
+            updateQuantity(variant, action);
+        });
+    });
+
+    // Pre-order button functionality
+    document.getElementById('preorder-btn').addEventListener('click', function() {
+        const totalItems = quantities.classic + quantities.matcha + quantities.strawberry;
+        if (totalItems === 0) {
+            alert('Pilih mochi terlebih dahulu!');
+            return;
+        }
+        
+        const orderDetails = `
+            Pesanan Anda:
+            - Classic Mochi: ${quantities.classic}
+            - Matcha Mochi: ${quantities.matcha}
+            - Strawberry Mochi: ${quantities.strawberry}
+            Total: Rp ${(totalItems * pricePerItem).toLocaleString('id-ID')}
+        `;
+        
+        alert(orderDetails + '\n\nTerima kasih! Pesanan Anda akan diproses.');
+    });
+
+    // Trigger fade-in animations for new sections
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+    });
+  </script>
+</body>
+</html>
