@@ -304,35 +304,68 @@
         color: #ff9605c4;
     }
     
-    /* --- NEW: Info Cards --- */
+    /* --- NEW: Responsive Info Cards --- */
+.info-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    height: 400px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+}
+
+.info-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.info-card:hover img {
+    transform: scale(1.1);
+}
+
+.info-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 30px;
+    color: white;
+}
+
+/* info cards */
+/* Tablet */
+@media (max-width: 768px) {
     .info-card {
-        position: relative;
-        overflow: hidden;
-        border-radius: 20px;
-        height: 400px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .info-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-    
-    .info-card:hover img {
-        transform: scale(1.1);
+        height: 350px;
+        border-radius: 15px;
     }
     
     .info-card-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-        padding: 30px;
-        color: white;
+        padding: 25px;
     }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .info-card {
+        height: 300px;
+        border-radius: 12px;
+    }
+    
+    .info-card-overlay {
+        padding: 20px;
+    }
+}
+
+/* Touch devices - disable hover */
+@media (hover: none) {
+    .info-card:hover img {
+        transform: none;
+    }
+}
     
     /* --- NEW: Pre-order Section --- */
     .pre-order-section {
@@ -415,21 +448,17 @@
       <section class="section gradient-purple"></section>
       <section class="section gradient-blue">
         <div class="test">
-          <p>Konon, di kota kecil yang nggak ada di Google Maps,</p>
-          <p>tersembunyi sebuah harta karun manis yang cuma bisa ditemukan oleh mereka yang berani menjelajah.</p>
+          <h3 style="font-family: 'Chelsea Market', cursive; font-size: 36px; color: #ff9605; margin-bottom: 15px;">Konon, di kota kecil yang nggak ada di Google Maps,</h3>
+          <p style="font-family: 'Chelsea Market', cursive; font-size: 30px; color: #ff9605; margin-bottom: 15px;">tersembunyi sebuah harta karun manis yang cuma bisa ditemukan oleh mereka yang berani menjelajah.</p>
           <br>
-          <p>Suatu hari, seorang pemuda bernama Malik memutuskan untuk pergi berpetualang.</p>
-          <p>Ia ingin menemukan sesuatu yang bisa membuat harinya lebih berwarna.</p>
+          <p style="font-family: 'Chelsea Market', cursive; font-size: 30px; color: #ff9605; margin-bottom: 15px;">Suatu hari, seorang pemuda bernama Malik memutuskan untuk pergi berpetualang.</p>
+          <p style="font-family: 'Chelsea Market', cursive; font-size: 30px; color: #ff9605; margin-bottom: 15px;">Ia ingin menemukan sesuatu yang bisa membuat harinya lebih berwarna.</p>
           <br>
-          <p>Dengan membawa ransel dan semangat, Malik menyusuri jalanan, dan area yang belum pernah ia datangi sebelumnya.</p>
+          <p style="font-family: 'Chelsea Market', cursive; font-size: 30px; color: #ff9605; margin-bottom: 15px;">Dengan membawa ransel dan semangat, Malik menyusuri jalanan, dan area yang belum pernah ia datangi sebelumnya.</p>
           <br>
-          <br>
-          <br>
-          <p>Hingga akhirnya, di ujung sebuah jalan kecil</p>
-          <h1>Dia menemukan sebuah harta karun!!!</h1>
-          <h3>Harta karunnya yaitu...</h3>
-          <br>
-          <br>
+          <p style="font-family: 'Chelsea Market', cursive; font-size: 30px; color: #ff9605; margin-bottom: 15px;">Hingga akhirnya, di ujung sebuah jalan kecil</p>
+          <h1 style="font-family: 'Chelsea Market', cursive; font-size: 36px; color: #ff9605; margin-bottom: 15px;">Dia menemukan sebuah harta karun!!!</h1>
+          <h3 style="font-family: 'Chelsea Market', cursive; font-size: 50px; color: #ff9605; margin-bottom: 15px;">Harta karunnya yaitu...</h3>
         </div>
       </section>
     </div>
@@ -453,32 +482,33 @@
     </section>
     
     <!-- NEW: Info Cards Section -->
-    <section style="background: white; padding: 60px 20px; position: relative; z-index: 3;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-family: 'Chelsea Market', cursive; font-size: 48px; color: #000; text-align: center; margin-bottom: 50px;">Kenapa Mochi Kami Istimewa?</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 30px;">
-                
-                <!-- Card 1 -->
-                <div class="info-card hover-lift">
-                    <img src="https://files.catbox.moe/mo7xyj.jpg" alt="Premium Ingredients">
-                    <div class="info-card-overlay">
-                        <h3 style="font-family: 'Chelsea Market', cursive; font-size: 32px; margin-bottom: 10px;">Bahan Premium</h3>
-                        <p style="font-size: 18px; line-height: 1.5;">Mochi kami dibuat dari tepung ketan berkualitas  tinggi, isian yang premium dan tanpa bahan pengawet tambahan</p>
-                    </div>
+<section style="background: white; padding: 60px 20px; position: relative; z-index: 3;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <h2 style="font-family: 'Chelsea Market', cursive; font-size: clamp(32px, 5vw, 48px); color: #000; text-align: center; margin-bottom: 50px;">Kenapa Mochi Kami Istimewa?</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+            
+            <!-- Card 1 -->
+            <div class="info-card hover-lift" style="width: 100%; max-width: 500px; margin: 0 auto; overflow: hidden;">
+                <img src="https://files.catbox.moe/mo7xyj.jpg" alt="Premium Ingredients" style="width: 100%; height: auto; display: block;">
+                <div class="info-card-overlay">
+                    <h3 style="font-family: 'Chelsea Market', cursive; font-size: clamp(24px, 4vw, 32px); margin-bottom: 10px;">Bahan Premium</h3>
+                    <p style="font-size: clamp(16px, 2.5vw, 18px); line-height: 1.5;">Mochi kami dibuat dari tepung ketan berkualitas tinggi, isian yang premium dan tanpa bahan pengawet tambahan</p>
                 </div>
-                
-                <!-- Card 2 -->
-                <div class="info-card hover-lift">
-                    <img src="https://files.catbox.moe/hf53m2.jpg" alt="Handcrafted">
-                    <div class="info-card-overlay">
-                        <h3 style="font-family: 'Chelsea Market', cursive; font-size: 32px; margin-bottom: 10px;">Buatan Tangan</h3>
-                        <p style="font-size: 18px; line-height: 1.5;">Setiap mochi dibuat dengan cinta dan penuh ketelitian sehingga menghasilkan mochi yang lembut dan kenyal</p>
-                    </div>
-                </div>
-                
             </div>
+            
+            <!-- Card 2 -->
+            <div class="info-card hover-lift" style="width: 100%; max-width: 500px; margin: 0 auto; overflow: hidden;">
+                <img src="https://files.catbox.moe/hf53m2.jpg" alt="Handcrafted" style="width: 100%; height: auto; display: block;">
+                <div class="info-card-overlay">
+                    <h3 style="font-family: 'Chelsea Market', cursive; font-size: clamp(24px, 4vw, 32px); margin-bottom: 10px;">Buatan Tangan</h3>
+                    <p style="font-size: clamp(16px, 2.5vw, 18px); line-height: 1.5;">Setiap mochi dibuat dengan cinta dan penuh ketelitian sehingga menghasilkan mochi yang lembut dan kenyal</p>
+                </div>
+            </div>
+            
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- NEW: Pre-order Section -->
 <section class="pre-order-section">
@@ -593,6 +623,69 @@
     </center>
   </div>
 </section>
+
+    <!-- Footer -->
+    <footer style="background: #1a1a1a; color: white; padding: 60px 20px 30px; position: relative; z-index: 3; margin-top: 50px;">
+      <div style="max-width: 1200px; margin: 0 auto;">
+        <!-- Footer Content -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+          
+          <!-- Brand Section -->
+          <div>
+            <h3 style="font-family: 'Chelsea Market', cursive; font-size: 36px; color: #ff9605; margin-bottom: 15px;">Omochi!</h3>
+            <p style="font-size: 16px; line-height: 1.6; color: #ccc;">Harta karun manis dari negeri matahari terbit, dibuat dengan cinta untuk petualang sejati.</p>
+          </div>
+          
+          <!-- Quick Links -->
+          <div>
+            <h4 style="font-family: 'Chelsea Market', cursive; font-size: 24px; color: #ff9605; margin-bottom: 15px;">Jelajahi</h4>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: 10px;"><a href="https://ssection12.github.io/SSection" class="hover-lift" style="color: #ccc; text-decoration: none; font-size: 16px; transition: color 0.3s;">Tentang pembuat website</a></li>
+            </ul>
+          </div>
+          
+          <!-- Contact Info -->
+          <div>
+            <h4 style="font-family: 'Chelsea Market', cursive; font-size: 24px; color: #ff9605; margin-bottom: 15px;">Hubungi Kami</h4>
+            <p style="font-size: 16px; line-height: 1.6; color: #ccc; margin-bottom: 10px;">
+              <i class="fas fa-envelope" style="color: #ff9605; margin-right: 10px;"></i>hello@omochi.com
+            </p>
+            <p style="font-size: 16px; line-height: 1.6; color: #ccc; margin-bottom: 10px;">
+              <i class="fas fa-phone" style="color: #ff9605; margin-right: 10px;"></i>+62 812-3456-7890
+            </p>
+            <p style="font-size: 16px; line-height: 1.6; color: #ccc;">
+              <i class="fas fa-map-marker-alt" style="color: #ff9605; margin-right: 10px;"></i>Jakarta, Indonesia
+            </p>
+          </div>
+          
+          <!-- Social Media -->
+          <div>
+            <h4 style="font-family: 'Chelsea Market', cursive; font-size: 24px; color: #ff9605; margin-bottom: 15px;">Ikuti Petualangan</h4>
+            <div style="display: flex; gap: 15px; margin-top: 15px;">
+              <a href="#" class="hover-button" style="display: inline-block; width: 45px; height: 45px; background: #ff9605; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease;">
+                <i class="fab fa-instagram" style="color: white; font-size: 20px;"></i>
+              </a>
+              <a href="#" class="hover-button" style="display: inline-block; width: 45px; height: 45px; background: #ff9605; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease;">
+                <i class="fab fa-facebook-f" style="color: white; font-size: 20px;"></i>
+              </a>
+              <a href="#" class="hover-button" style="display: inline-block; width: 45px; height: 45px; background: #ff9605; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease;">
+                <i class="fab fa-twitter" style="color: white; font-size: 20px;"></i>
+              </a>
+              <a href="#" class="hover-button" style="display: inline-block; width: 45px; height: 45px; background: #ff9605; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease;">
+                <i class="fab fa-tiktok" style="color: white; font-size: 20px;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Copyright -->
+        <div style="border-top: 1px solid #333; padding-top: 20px; text-align: center;">
+          <p style="font-size: 14px; color: #888; font-family: 'Inter', sans-serif;">
+            &copy; 2024 Omochi! All Rights Reserved. | Dibuat dengan <i class="fas fa-heart" style="color: #ff9605;"></i> untuk pencinta mochi sejati.
+          </p>
+        </div>
+      </div>
+    </footer>
 
 <script>
 // Ensure the quantity display starts with a valid number
