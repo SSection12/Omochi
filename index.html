@@ -23,6 +23,7 @@
     
     html {
         scroll-behavior: smooth;
+        overflow-x: hidden; /* Prevent horizontal scrolling globally */
     }
     
     body {
@@ -31,6 +32,7 @@
         font-style: normal;
         font-family: "Chelsea Market", system-ui;
         font-size: 34px;
+        overflow-x: hidden; /* Prevents horizontal scrolling */
     }
     
     /* --- Brand Colors (WHITE THEME - Orange Accent) --- */
@@ -208,6 +210,7 @@
         position: relative;
         width: 100%;
         z-index: 1;
+        overflow-x: hidden; /* Ensure no horizontal scrolling within the wrapper */
     }
     
     .content {
@@ -391,7 +394,15 @@
     .quantity-control {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 15px; /* Default horizontal layout */
+    }
+    
+    /* Adjust to vertical layout for small screens */
+    @media (max-width: 480px) {
+      .quantity-control {
+        flex-direction: column;
+        gap: 10px; /* Adjust spacing for vertical layout */
+      }
     }
     
     .quantity-btn {
@@ -440,8 +451,10 @@
 <body>
   <div class="wrapper">
     <div class="intro">
-      <h1>Legenda seorang</h1>
+      <center>
+        <h1>Legenda seorang</h1>
       <p>Petualang pencari harta karun</p>
+      </center>
     </div>
     <div class="content">
       <section class="section hero"></section>
